@@ -8,15 +8,20 @@ import useStyles from './Styles'
 
 const Posts = ({setcurrentId}) =>{
     const classes = useStyles()
-    const posts = useSelector((state)=> state.posts);
+    const { posts , isLoading } = useSelector((state)=> state.posts);     // { posts: [] } this is why destructure posts. 
 
-    console.log(posts,"postsss");
+    // console.log(posts,"postsss");
+    // console.log(posts,"likess");
+
+    if(!posts.length && !isLoading) return "No posts found"
+    
     return(
         <>
-        {!posts.length ? <CircularProgress justifyContent="center"/> : (
+        {isLoading ?  <CircularProgress className={classes.circularProgress}/> : (
+            
              <Grid className={classes.container} container alignItems="stretch" spacing={3}>
                 { posts.map(post => (
-                    <Grid key={post._id} item xs={12} sm={6}>
+                    <Grid key={post._id} item xs={12} sm={6} md={4} lg={3}>
                         <Post post={post} setcurrentId={setcurrentId}/>
 
                     </Grid>
