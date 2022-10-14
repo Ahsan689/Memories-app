@@ -1,6 +1,10 @@
 import React,{useState} from 'react'
 import {Typography, Avatar, Button, Container, Grid, Paper} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 import useStyles from './Styles';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -15,6 +19,46 @@ import { useNavigate } from 'react-router-dom';
 
 import Input from './Input';
 
+
+// function Alert(props) {
+//   return <MuiAlert elevation={6} variant="filled" {...props} />;
+// }
+
+// function CustomizedSnackbars() {
+
+//   const classes = useStyles();
+//   const [open, setOpen] = React.useState(false);
+
+//   const handleClick = () => {
+//     setOpen(true);
+//   };
+
+//   const handleClose = (event, reason) => {
+//     if (reason === 'clickaway') {
+//       return;
+//     }
+
+//     setOpen(false);
+//   };
+
+//   return (
+//     <div className={classes.root}>
+//       <Button variant="outlined" onClick={handleClick}>
+//         Open success snackbar
+//       </Button>
+//       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+//         <Alert onClose={handleClose} severity="success">
+//           This is a success message!
+//         </Alert>
+//       </Snackbar>
+//       <Alert severity="error">This is an error message!</Alert>
+//       <Alert severity="warning">This is a warning message!</Alert>
+//       <Alert severity="info">This is an information message!</Alert>
+//       <Alert severity="success">This is a success message!</Alert>
+//     </div>
+//   );
+// }
+
 const Auth = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -28,6 +72,54 @@ const Auth = () => {
   
     const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => setShowPassword(!showPassword);
+
+    const [open, setOpen] = useState({
+      invalidUser: false, invalidCredentials: false, confirmPass: false, userAlreadyExists: false
+    });
+
+    function Alert(props) {
+      return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
+    const handleClick = (error) => {
+      if(error == 'User does not exist!') setOpen({...open, invalidUser: true});
+      else if(error == 'Invalid Credential!') setOpen({...open, invalidCredentials: true});
+      else if(error == "Password doesn't match!") setOpen({...open, confirmPass: true});
+      else if(error == 'User already exist!') setOpen({...open, userAlreadyExists: true});
+
+    }
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      if(open.invalidUser){
+        setOpen({...open, invalidUser: false});
+      }else if(open.invalidCredentials){
+        setOpen({...open, invalidCredentials: false});
+      }else if(open.confirmPass){
+        setOpen({...open, confirmPass: false});
+      }else{
+        setOpen({...open, userAlreadyExists: false});
+
+      }
+    };
+
+    const snackbar = (
+      <div className={classes.root}>
+        <Snackbar open={open.invalidUser || open.invalidCredentials || open.confirmPass || open.userAlreadyExists} autoHideDuration={2000} onClose={handleClose} 
+         anchorOrigin={{ vertical: 'bottom', horizontal: 'right'}}>
+          <Alert onClose={handleClose} severity="error">
+            { open.invalidUser && ( 'User Doest not exist!')}
+            { open.invalidCredentials && ('Invalid Credentials!')}
+            { open.confirmPass && ("Password doesn't match!")}
+            { open.userAlreadyExists && ('User already exist!')}
+           
+          </Alert>
+        </Snackbar>
+      </div>
+    )
+
     
 
     const handleSubmit = (e) => {
@@ -36,9 +128,10 @@ const Auth = () => {
         // console.log(Form,"formm");
         
         if (isSignup) {
-          dispatch(signup(Form, navigate));
+          dispatch(signup(Form, navigate, handleClick));
         } else {
-          dispatch(signin(Form, navigate));
+          dispatch(signin(Form, navigate , handleClick));
+
         }
    };
 
@@ -113,6 +206,7 @@ const Auth = () => {
           </Grid>
         </Grid>
       </form>
+      {snackbar}
     </Paper>
   </Container>
   )

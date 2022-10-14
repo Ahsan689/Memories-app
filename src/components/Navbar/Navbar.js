@@ -92,37 +92,39 @@ const Navbar = () => {
     const navigate = useNavigate()
     const location = useLocation()
     console.log(location.pathname);
-    const [user, setuser] = useState(JSON.parse(localStorage.getItem('profile')))
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+
+    const userRes = useSelector(state => state.auth.authData)
 
     console.log(user,"userrrr");
 
     const onLogout = () =>{
         dispatch({type:'LOGOUT' })
 
-        navigate('/')
-        setuser(null)
+        navigate('/posts')
+        setUser(null)
 
     }
 
     useEffect(() => {
 
-        setuser(JSON.parse(localStorage.getItem('profile')))
+        setUser(JSON.parse(localStorage.getItem('profile')))
       
-    }, [location])
+    }, [userRes])
     
 
   return (
     <div>
         <AppBar className={classes.appBar} position="static" color="inherit">
-            <Link to="/" className={classes.brandContainer}>
+            <Link to="/posts" className={classes.brandContainer}>
                 <img src={memoriesText} alt="memories" height="40"/>
                 <img className={classes.image} src={memoriesLogo} alt="memories" height="40"/>
                 {user?.data ? 
                 <TemporaryDrawer  onLogout={onLogout} user={user}/> :
                 <Button size='small' className={classes.signIn} component={Link} to="/auth" variant='contained' color="primary">Sign In</Button>
                 }
-
             </Link>
+
             <Toolbar className={classes.toolbar}>
                 {user?.data ? (
                     <div className={classes.profile}>
@@ -130,13 +132,15 @@ const Navbar = () => {
                         <Typography  className={classes.userName} variant="h6" > {user.data.name}</Typography>
                         <Button className={classes.logout} variant='contained' color="secondary" onClick={()=>onLogout()}>Logout</Button>
                     </div>
-                ) : user?.sub ?  (
-                    <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user?.name} src={user.picture}>{user?.name.charAt(0)}</Avatar>
-                        <Typography  className={classes.userName} variant="h6" > {user?.name}</Typography>
-                        <Button className={classes.logout} variant='contained' color="secondary" onClick={()=>onLogout()}>Logout</Button>
-                    </div>
-                ) : (
+                ) 
+                // : user?.sub ?  (
+                //     <div className={classes.profile}>
+                //         <Avatar className={classes.purple} alt={user?.name} src={user.picture}>{user?.name.charAt(0)}</Avatar>
+                //         <Typography  className={classes.userName} variant="h6" > {user?.name}</Typography>
+                //         <Button className={classes.logout} variant='contained' color="secondary" onClick={()=>onLogout()}>Logout</Button>
+                //     </div>
+                // )
+                 : (
                     <Button component={Link} to="/auth" variant='contained' color="primary">Sign In</Button>
                     
                 )
