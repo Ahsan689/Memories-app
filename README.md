@@ -74,4 +74,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
  The App is called "Memories" and it is a simple social media MERN application that allows users to post interesting events that happened in their lives.
  
  ## Live
-The Live version of this app is available [here](https://pusher-chat-app-delta.vercel.app/)
+The Live version of this app is available [here](https://memories-app-pink.vercel.app)
