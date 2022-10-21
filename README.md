@@ -76,5 +76,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
  ## Authentication
  Authentication with Email using JWT and OAuth Google login,
  
+ ## Pagination and Search
+ Implemented MERN pagination, title & tags search, and client-side routing to a post details page.
+ 
  ## Live
 The Live version of this app is available [here](https://memories-app-pink.vercel.app)
