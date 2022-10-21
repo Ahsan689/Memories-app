@@ -73,5 +73,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
  # Using React, Node.js, Express & MongoDB.
  The App is called "Memories" and it is a simple social media MERN application that allows users to post interesting events that happened in their lives.
  
+ ## Authentication
+ Authentication with Email using JWT and OAuth Google login,
+ 
  ## Live
 The Live version of this app is available [here](https://memories-app-pink.vercel.app)
