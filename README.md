@@ -74,10 +74,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
  The App is called "Memories" and it is a simple social media MERN application that allows users to post interesting events that happened in their lives.
  
  ## Authentication
- Authentication with Email using JWT and OAuth Google login,
+ Authentication with Email using JWT and OAuth Google login
  
  ## Pagination and Search
  Implemented MERN pagination, title & tags search, and client-side routing to a post details page.
+ 
+ Deployed on Vercel
  
  ## Live
 The Live version of this app is available [here](https://memories-app-pink.vercel.app)
